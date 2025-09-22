@@ -2,7 +2,7 @@ console.log("Controller loaded");
 console.log("Ready button clicked");
 
 // Imports
-import { setZodiacSign } from "./gamestate.js";
+import { setZodiacSign, currentLine } from "./gamestate.js";
 import { incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
 import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
@@ -86,8 +86,11 @@ function renderLines(lines) {
     li.textContent = line.line;
     li.classList.add("option");
     li.addEventListener("click", () => {
+      document.querySelectorAll("#opening-line-options li").forEach(el =>
+        el.classList.remove("selected")
+      );
+      li.classList.add("selected");
       currentLine = line.line;
-      li.classList.toggle("selected");
     });
     lineList.appendChild(li);
   });
