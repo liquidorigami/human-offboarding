@@ -1,5 +1,5 @@
 export const accessoryBank = [
-  // PRO — Professional
+
 { item: "tissue box", tone: "PRO" },
 { item: "cup of tea", tone: "PRO" },
 { item: "stress ball", tone: "PRO" },
@@ -8,7 +8,9 @@ export const accessoryBank = [
 { item: "folded note", tone: "PRO" },
 { item: "company water bottle", tone: "PRO" },
 { item: "soft mint", tone: "PRO" },
-  // AWK — Awkward
+{ item: "clipboard", tone: "PRO" },
+{ item: "succulent", tone: "PRO" },
+
 { item: "greeting card", tone: "AWK" },
 { item: "old calendar", tone: "AWK" },
 { item: "event tote bag", tone: "AWK" },
@@ -17,7 +19,8 @@ export const accessoryBank = [
 { item: "half-deflated ball", tone: "AWK" },
 { item: "‘You tried’ sticker", tone: "AWK" },
 { item: "holiday ornament", tone: "AWK" },
-  // DAF — Direct
+{ item: "light bulb", tone: "AWK" },
+
 { item: "rock", tone: "DAF" },
 { item: "blank sticky note", tone: "DAF" },
 { item: "‘Not a metaphor’", tone: "DAF" },
@@ -26,7 +29,8 @@ export const accessoryBank = [
 { item: "folder labeled ‘Nothing’", tone: "DAF" },
 { item: "receipt for nothing", tone: "DAF" },
 { item: "leadless pencil", tone: "DAF" },
-  // LOL — Funny
+{ item: "security escort", tone: "DAF" },
+  
 { item: "balloon", tone: "LOL" },
 { item: "lottery scratcher", tone: "LOL" },
 { item: "photo frame", tone: "LOL" },
@@ -44,19 +48,12 @@ export const accessoryBank = [
 { item: "paperclip chain", tone: "EH" },
 { item: "system alert", tone: "EH" },
 { item: "office chair", tone: "EH" },
+{ item: "farewell card", tone: "NEU" },
+{ item: "uSB stick", tone: "NEU" }
 ];
 
 import { getZodiacSign } from "./gamestate.js";
 import { zodiacToneMap } from "./lines.js";
-
-export const accessoryBank = [
-  { item: "Clipboard", tone: "PRO" },
-  { item: "Succulent", tone: "PRO" },
-  { item: "Farewell card", tone: "NEU" },
-  { item: "USB stick", tone: "NEU" },
-  { item: "Security escort", tone: "WILD" },
-  // Add full list here
-];
 
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
