@@ -2,7 +2,7 @@ console.log("Controller loaded");
 console.log("Ready button clicked");
 
 // Imports
-import { incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
+import { incrementCaseCount, getCaseCount, recordSelections, setZodiacSign } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
 import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
 import {
