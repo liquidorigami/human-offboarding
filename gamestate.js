@@ -1,5 +1,13 @@
 // Player identity
-export let zodiacSign = null;
+let zodiacSign = null;
+
+export function setZodiacSign(sign) {
+  zodiacSign = sign;
+}
+
+export function getZodiacSign() {
+  return zodiacSign;
+}
 
 // Case tracking
 let caseCount = 1;
