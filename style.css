@@ -14,7 +14,7 @@ body {
   margin-top: 2rem;
   font-weight: bold;
   border: 2px solid #1976d2;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   background: #fff;
   max-width: 300px;
@@ -24,12 +24,15 @@ body {
 
 .case-id {
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-variant: small-caps;
+  margin: 0;
 }
 
 .human-id {
   font-size: 1.5rem;
+  margin: 0.5rem 0 0;
 }
+
 
 .section-heading {
   font-weight: bold;
@@ -148,3 +151,25 @@ button.primary-button:disabled {
   gap: 1rem;
   margin-top: 1rem;
 }
+#intro-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-box {
+  background-color: #111;
+  padding: 2em;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  max-width: 600px;
+}
+
