@@ -10,7 +10,7 @@ function showError(id) {
 }
 
 // Imports
-import { setZodiacSign, currentLine } from "./gamestate.js";
+import { setZodiacSign, currentLine, currentAccessory } from "./gamestate.js";
 import { incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
 import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
@@ -103,13 +103,37 @@ function renderAccessories(accessories) {
     li.textContent = item;
     li.classList.add("option");
     li.addEventListener("click", () => {
+      document.querySelectorAll("#accessory-options li").forEach(el =>
+        el.classList.remove("selected")
+      );
+      li.classList.add("selected");
       currentAccessory = item;
-      li.classList.toggle("selected");
     });
     accessoryList.appendChild(li);
   });
 }
 
+// Buttons
+document.getElementById("refresh-btn").addEventListener("click", () => {
+  const caseCount = getCaseCount();
+  if (caseCount < 5) return showError("error-refresh");
+  const lines = getStarterOpeningLineSet(caseCount);
+  renderLines(lines);
+});
+
+document.getElementById("change-btn").addEventListener("click", () => {
+  const caseCount = getCaseCount();
+  if (caseCount < 5) return showError("error-change");
+  const accessories = getStarterAccessorySet(caseCount);
+  renderAccessories(formatAccessoryList(accessories));
+});
+
+document.getElementById("offboard-btn").addEventListener("click", () => {
+  if (!currentLine || !currentAccessory) {
+    return showError("error-offboard");
+  }
+  // trigger offboarding logic here
+});
 
 // MassOffboard logic
 let massClicks = 0;
