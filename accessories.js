@@ -45,3 +45,37 @@ export const accessoryBank = [
 { item: "system alert", tone: "EH" },
 { item: "office chair", tone: "EH" },
 ];
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+export function getStarterAccessorySet(caseCount) {
+  const proItems = accessoryBank.filter(a => a.tone === "PRO");
+  const neuItems = accessoryBank.filter(a => a.tone === "NEU");
+  const wildItems = accessoryBank.filter(a => a.tone === "WILD");
+
+  const selected = [];
+
+  // Always try to pick one from each category
+  selected.push(proItems.length ? pickRandom(proItems) : pickRandom(accessoryBank));
+  selected.push(neuItems.length ? pickRandom(neuItems) : pickRandom(accessoryBank));
+  selected.push(wildItems.length ? pickRandom(wildItems) : pickRandom(accessoryBank));
+
+  return selected.map(a => a.item);
+}
+
+
+export function getStarterAccessorySet(caseCount) {
+  const proItems = accessoryBank.filter(a => a.tone === "PRO");
+  const neuItems = accessoryBank.filter(a => a.tone === "NEU");
+  const wildItems = accessoryBank.filter(a => a.tone === "WILD");
+
+  const selected = [
+    pickRandom(proItems),
+    pickRandom(neuItems),
+    pickRandom(wildItems)
+  ];
+
+  return selected.map(a => a.item);
+}
