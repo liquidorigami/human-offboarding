@@ -39,7 +39,7 @@ export const accessoryBank = [
 { item: "‘Oops!’ plaque", tone: "LOL" },
 { item: "tiny trophy", tone: "LOL" },
 { item: "‘Bye Felicia’ mug", tone: "LOL" },
-  // EH — Neutral
+
 { item: "stapler", tone: "EH" },
 { item: "blank envelope", tone: "EH" },
 { item: "desk plant", tone: "EH" },
@@ -48,8 +48,7 @@ export const accessoryBank = [
 { item: "paperclip chain", tone: "EH" },
 { item: "system alert", tone: "EH" },
 { item: "office chair", tone: "EH" },
-{ item: "farewell card", tone: "NEU" },
-{ item: "uSB stick", tone: "NEU" }
+{ item: "farewell card", tone: "EH" },
 ];
 
 import { getZodiacSign } from "./gamestate.js";
