@@ -106,3 +106,18 @@ export function getStarterOpeningLineSet(caseCount) {
 
   return selectedLines;
 }
+
+export const zodiacToneMap = {
+  Aries: ["DAF", "LOL"],
+  Taurus: ["PRO", "EH"],
+  Gemini: ["LOL", "AWK"],
+  Cancer: ["EH", "AWK"],
+  Leo: ["DAF", "PRO"],
+  Virgo: ["PRO", "EH"],
+  Libra: ["AWK", "LOL"],
+  Scorpio: ["DAF", "AWK"],
+  Sagittarius: ["LOL", "DAF"],
+  Capricorn: ["PRO", "DAF"],
+  Aquarius: ["LOL", "EH"],
+  Pisces: ["EH", "AWK"]
+};
