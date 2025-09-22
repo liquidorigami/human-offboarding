@@ -59,20 +59,25 @@ function pickRandom(arr) {
 }
 
 export function getStarterAccessorySet(caseCount) {
-  const sign = getZodiacSign();
-  const preferredTones = zodiacToneMap[sign] || ["EH"];
-
-  const filtered = accessoryBank.filter(a =>
-    preferredTones.includes(a.tone)
+  const pro = accessoryBank.filter(a => a.tone === "PRO");
+  const eh = accessoryBank.filter(a => a.tone === "EH");
+  const any = accessoryBank.filter(a =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(a.tone)
   );
 
-  const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 3).map(a => a.item);
+  const selected = [
+    pickRandom(pro),
+    pickRandom(eh),
+    pickRandom(any)
+  ];
+
+  return selected.map(a => a.item);
 }
 
 export function getAccessorySelectionPool() {
   const shuffled = [...accessoryBank].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, 7).map(a => a.item);
 }
+
 
 
