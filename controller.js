@@ -1,7 +1,8 @@
 console.log("Controller loaded");
+console.log("Ready button clicked");sw
 
 // Imports
-import { setZodiacSign, incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
+import { incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
 import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
 import {
@@ -21,6 +22,8 @@ function hideIntroScreen() {
 }
 
 // Ready Button Logic
+console.log("Ready button clicked");
+
 document.getElementById("ready-btn")?.addEventListener("click", () => {
   const select = document.getElementById("zodiac-select");
   const selected = select.value;
