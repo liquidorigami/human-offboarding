@@ -22,6 +22,15 @@ function hideIntroScreen() {
   document.getElementById("intro-screen").style.display = "none";
 }
 
+function showError(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = "block";
+  setTimeout(() => {
+    el.style.display = "none";
+  }, 500);
+}
+
 // Ready Button Logic
 console.log("Ready button clicked");
 
@@ -48,7 +57,8 @@ function setupCase() {
   const humanNumber = Math.floor(1000 + Math.random() * 9000);
   document.getElementById("human-number").textContent = humanNumber;
 
-  const lines = getStarterOpeningLineSet(currentCase);
+  const lines = getStarterOpeningLineSet(currentCase); 
+  renderLines(lines);
   const lineList = document.getElementById("opening-line-options");
   lineList.innerHTML = "";
   lines.forEach(line => {
@@ -98,25 +108,27 @@ function renderAccessories(accessories) {
   });
 }
 
+
 // MassOffboard logic
 let massClicks = 0;
 
-document.getElementById("mass-btn").addEventListener("click", () => {
+document.getElementById("mass-offboard-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
   if (caseCount < 8) return showError("error-mass");
   if (massClicks >= 2) return showError("error-exhausted");
   massClicks++;
-  // trigger mass offboard logic here
+
+  // Trigger mass offboarding
+  incrementCaseCount();
+  const newCase = getCaseCount();
+
+  const humanNumber = Math.floor(1000 + Math.random() * 9000);
+  document.getElementById("human-number").textContent = humanNumber;
+
+  const lines = getStarterOpeningLineSet(newCase);
+  renderLines(lines);
+
+  const accessories = getStarterAccessorySet(newCase);
+  renderAccessories(formatAccessoryList(accessories));
 });
 
-// Modal Confirm Logic
-document.getElementById("confirm-modal").addEventListener("click", () => {
-  const selected = getSelectedAccessories();
-  if (selected.length === 3) {
-    hideAccessoryModal();
-    renderAccessories(selected);
-    recordSelections({ accessory: selected });
-  } else {
-    alert("Please select exactly 3 accessories.");
-  }
-});
