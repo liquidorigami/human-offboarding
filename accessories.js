@@ -65,17 +65,8 @@ export function getStarterAccessorySet(caseCount) {
   return selected.map(a => a.item);
 }
 
-
-export function getStarterAccessorySet(caseCount) {
-  const proItems = accessoryBank.filter(a => a.tone === "PRO");
-  const neuItems = accessoryBank.filter(a => a.tone === "NEU");
-  const wildItems = accessoryBank.filter(a => a.tone === "WILD");
-
-  const selected = [
-    pickRandom(proItems),
-    pickRandom(neuItems),
-    pickRandom(wildItems)
-  ];
-
-  return selected.map(a => a.item);
+export function getAccessorySelectionPool() {
+  const shuffled = [...accessoryBank].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 7).map(a => a.item);
 }
+
