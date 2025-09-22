@@ -4,8 +4,9 @@ let selectedAccessories = [];
 // Format accessory list
 // ─────────────────────────────────────────────────────────────
 export function formatAccessoryList(accessories) {
-  return sortAccessoriesAlphabetically(accessories).map(a => a.item);
+  return [...accessories].sort((a, b) => a.localeCompare(b));
 }
+
 
 // ─────────────────────────────────────────────────────────────
 // Modal title logic
