@@ -1,5 +1,5 @@
 console.log("Controller loaded");
-console.log("Ready button clicked");sw
+console.log("Ready button clicked");
 
 // Imports
 import { incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
