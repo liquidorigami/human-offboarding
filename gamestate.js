@@ -1,4 +1,6 @@
-// Player identity
+console.log("gamestate.js loaded");
+console.log("setZodiacSign:", typeof setZodiacSign);
+
 let zodiacSign = null;
 
 export function setZodiacSign(sign) {
@@ -9,7 +11,6 @@ export function getZodiacSign() {
   return zodiacSign;
 }
 
-// Case tracking
 let caseCount = 1;
 export function incrementCaseCount() {
   caseCount++;
