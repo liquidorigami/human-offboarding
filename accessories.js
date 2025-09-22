@@ -46,27 +46,37 @@ export const accessoryBank = [
 { item: "office chair", tone: "EH" },
 ];
 
+import { getZodiacSign } from "./gamestate.js";
+import { zodiacToneMap } from "./lines.js";
+
+export const accessoryBank = [
+  { item: "Clipboard", tone: "PRO" },
+  { item: "Succulent", tone: "PRO" },
+  { item: "Farewell card", tone: "NEU" },
+  { item: "USB stick", tone: "NEU" },
+  { item: "Security escort", tone: "WILD" },
+  // Add full list here
+];
+
 function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 export function getStarterAccessorySet(caseCount) {
-  const proItems = accessoryBank.filter(a => a.tone === "PRO");
-  const neuItems = accessoryBank.filter(a => a.tone === "NEU");
-  const wildItems = accessoryBank.filter(a => a.tone === "WILD");
+  const sign = getZodiacSign();
+  const preferredTones = zodiacToneMap[sign] || ["EH"];
 
-  const selected = [];
+  const filtered = accessoryBank.filter(a =>
+    preferredTones.includes(a.tone)
+  );
 
-  // Always try to pick one from each category
-  selected.push(proItems.length ? pickRandom(proItems) : pickRandom(accessoryBank));
-  selected.push(neuItems.length ? pickRandom(neuItems) : pickRandom(accessoryBank));
-  selected.push(wildItems.length ? pickRandom(wildItems) : pickRandom(accessoryBank));
-
-  return selected.map(a => a.item);
+  const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 3).map(a => a.item);
 }
 
 export function getAccessorySelectionPool() {
   const shuffled = [...accessoryBank].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, 7).map(a => a.item);
 }
+
 
