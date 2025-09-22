@@ -95,31 +95,25 @@ export const zodiacToneMap = {
   Pisces: ["EH", "AWK"]
 };
 
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 export function getStarterOpeningLineSet(caseCount) {
-  const sign = getZodiacSign();
-  const preferredTones = zodiacToneMap[sign] || ["EH"];
+  const pro = openingLineBank.filter(l => l.tone === "PRO");
+  const eh = openingLineBank.filter(l => l.tone === "EH");
+  const any = openingLineBank.filter(l =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(l.tone)
+  );
 
-  let selectedLines = [];
+  const selected = [
+    pickRandom(pro),
+    pickRandom(eh),
+    pickRandom(any)
+  ];
 
-  if (caseCount === 1) {
-    selectedLines = openingLineBank.filter(line =>
-      ["PRO", "EH"].includes(line.tone)
-    );
-  } else if (caseCount === 2) {
-    selectedLines = openingLineBank.filter(line =>
-      ["AWK", "PRO", "EH"].includes(line.tone)
-    );
-  } else {
-    selectedLines = openingLineBank.filter(line =>
-      preferredTones.includes(line.tone)
-    );
-  }
+  if (caseCount >= 2) selected.push(pickRandom(any));
+  if (caseCount >= 3) selected.push(pickRandom(any));
 
-  if (selectedLines.length < 5) {
-    selectedLines = openingLineBank.filter(line =>
-      ["PRO", "EH", "AWK", "LOL", "DAF"].includes(line.tone)
-    );
-  }
-
-  return selectedLines.slice(0, 5);
+  return selected;
 }
