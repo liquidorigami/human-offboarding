@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<!-- intro screen -->
+
+<!-- Intro Screen -->
 <div id="intro-screen">
   <div class="intro-box">
     <h1 class="intro-title">Welcome to Human Offboarding</h1>
@@ -37,47 +38,44 @@
     </div>
   </div>
 </div>
-<!-- end intro screen -->
-<!-- main screen -->
+
+<!-- Main Screen -->
 <div id="main-screen" style="display: none;">
   <div class="case-header">
     <p class="case-id">CASE #0001</p>
-    <div class="human-id">Human #<span id="human-number">4827</span></div>
+    <div class="human-id">Human #<span id="human-number">0000</span></div>
   </div>
 
   <h2 class="section-heading">Choose your words <button id="refresh-btn">Refresh</button></h2>
   <div id="error-refresh" class="error hidden">Available after 5 cases</div>
-  <ul id="opening-line-options" class="option-list">
-    <!-- dynamically populated: 1 PRO, 1 NEU, 1 random -->
-  </ul>
+  <ul id="opening-line-options" class="option-list"></ul>
 
   <h2 class="section-heading">Choose an accessory <button id="change-btn">Change</button></h2>
   <div id="error-change" class="error hidden">Available after 5 cases</div>
-  <ul id="accessory-options" class="option-list">
-    <!-- dynamically populated: alphabetical starterAccessorySet -->
-  </ul>
+  <ul id="accessory-options" class="option-list"></ul>
 
   <div class="action-buttons">
     <button id="offboard-btn" class="primary-button">OFFBOARD</button>
     <button id="mass-offboard-btn" class="primary-button">MASS OFFBOARD</button>
   </div>
-<div id="error-offboard" class="error hidden">Must choose your words and your accessory.</div>
-<div id="error-mass" class="error hidden">Available after 8 cases</div>
-<div id="error-exhausted" class="error hidden">Mass Upload exhausted</div>
-</div>
-<!-- end main screen -->
 
-<!-- accessory modal -->
+  <div id="error-offboard" class="error hidden">Must choose your words and your accessory.</div>
+  <div id="error-mass" class="error hidden">Available after 8 cases</div>
+  <div id="error-exhausted" class="error hidden">Mass Upload exhausted</div>
+</div>
+
+<!-- Accessory Modal -->
 <div id="accessory-modal" class="modal-overlay" style="display: none;">
   <div class="modal-content">
     <h2>Select 3 accessories</h2>
     <ul id="accessory-modal-options"></ul>
-     <button id="confirm-modal">Confirm</button>
-     <button id="cancel-modal">Cancel</button>
+    <div class="modal-buttons">
+      <button id="confirm-modal">Confirm</button>
+      <button id="cancel-modal">Cancel</button>
+    </div>
   </div>
 </div>
-<!-- end accessory modal -->
-  <script type="module" src="util.js"></script>
-  <script type="module" src="./controller.js"></script>
+
+<script type="module" src="./controller.js"></script>
 </body>
 </html>
