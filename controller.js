@@ -135,6 +135,38 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
   // trigger offboarding logic here
 });
 
+// Toggle panels
+document.getElementById("progress-toggle").addEventListener("click", () => {
+  document.getElementById("progress-panel").classList.toggle("hidden");
+});
+
+document.getElementById("clockout-toggle").addEventListener("click", () => {
+  document.getElementById("clockout-panel").classList.toggle("hidden");
+});
+
+// Cease Offboarding
+document.getElementById("cease-btn").addEventListener("click", () => {
+  location.reload(); // simple reset
+});
+
+// Update score panel
+function updateSidebar(caseCount, earned = 0) {
+  document.getElementById("score-cases").textContent = caseCount;
+  document.getElementById("score-earned").textContent = earned;
+}
+
+// Add row to score table
+function addScoreRow(id, reaction, rating) {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${id}</td>
+    <td>${reaction}</td>
+    <td>${rating}</td>
+  `;
+  document.getElementById("score-table-body").appendChild(row);
+}
+
+
 // MassOffboard logic
 let massClicks = 0;
 
@@ -145,5 +177,6 @@ document.getElementById("mass-offboard-btn").addEventListener("click", () => {
   massClicks++;
   // trigger mass offboard logic here
 });
+
 
 
