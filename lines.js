@@ -103,7 +103,23 @@ export function getStarterOpeningLineSet(caseCount) {
       ["DAF", "LOL", "AWK", "EH"].includes(line.tone)
     ).slice(0, 5);
   }
+  export function getStarterOpeningLineSet(caseCount) {
+  const sign = getZodiacSign();
+  const preferredTones = zodiacToneMap[sign] || ["EH"];
 
+  let selectedLines = openingLineBank.filter(line =>
+    preferredTones.includes(line.tone)
+  );
+
+  // Fallback if too few lines
+  if (selectedLines.length < 5) {
+    selectedLines = openingLineBank.filter(line =>
+      ["PRO", "EH", "AWK", "LOL", "DAF"].includes(line.tone)
+    );
+  }
+
+  return selectedLines.slice(0, 5);
+}
   return selectedLines;
 }
 
