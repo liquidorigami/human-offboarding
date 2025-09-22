@@ -82,4 +82,27 @@ export const openingLineBank = [
 { line: "I don’t make the rules. I just read them.", tone: "EH" },
 { line: "It’s not a big deal unless you make it one.", tone: "EH" }
 ];
-// ← press Enter here to add a blank line
+
+export function getStarterOpeningLineSet(caseCount) {
+  // Adjust tone mix based on case count
+  let selectedLines = [];
+
+  if (caseCount === 1) {
+    // First case: mostly neutral/professional
+    selectedLines = openingLineBank.filter(line =>
+      ["PRO", "EH"].includes(line.tone)
+    ).slice(0, 5);
+  } else if (caseCount === 2) {
+    // Second case: introduce awkwardness
+    selectedLines = openingLineBank.filter(line =>
+      ["AWK", "PRO", "EH"].includes(line.tone)
+    ).slice(0, 5);
+  } else {
+    // Later cases: mix in direct and funny
+    selectedLines = openingLineBank.filter(line =>
+      ["DAF", "LOL", "AWK", "EH"].includes(line.tone)
+    ).slice(0, 5);
+  }
+
+  return selectedLines;
+}
