@@ -1,4 +1,5 @@
 console.log("lines.js loaded");
+import { getZodiacSign } from "./gamestate.js";
 
 export const openingLineBank = [
   // PRO — Professional
@@ -83,46 +84,6 @@ export const openingLineBank = [
 { line: "It’s not a big deal unless you make it one.", tone: "EH" }
 ];
 
-export function getStarterOpeningLineSet(caseCount) {
-  // Adjust tone mix based on case count
-  let selectedLines = [];
-
-  if (caseCount === 1) {
-    // First case: mostly neutral/professional
-    selectedLines = openingLineBank.filter(line =>
-      ["PRO", "EH"].includes(line.tone)
-    ).slice(0, 5);
-  } else if (caseCount === 2) {
-    // Second case: introduce awkwardness
-    selectedLines = openingLineBank.filter(line =>
-      ["AWK", "PRO", "EH"].includes(line.tone)
-    ).slice(0, 5);
-  } else {
-    // Later cases: mix in direct and funny
-    selectedLines = openingLineBank.filter(line =>
-      ["DAF", "LOL", "AWK", "EH"].includes(line.tone)
-    ).slice(0, 5);
-  }
-  export function getStarterOpeningLineSet(caseCount) {
-  const sign = getZodiacSign();
-  const preferredTones = zodiacToneMap[sign] || ["EH"];
-
-  let selectedLines = openingLineBank.filter(line =>
-    preferredTones.includes(line.tone)
-  );
-
-  // Fallback if too few lines
-  if (selectedLines.length < 5) {
-    selectedLines = openingLineBank.filter(line =>
-      ["PRO", "EH", "AWK", "LOL", "DAF"].includes(line.tone)
-    );
-  }
-
-  return selectedLines.slice(0, 5);
-}
-  return selectedLines;
-}
-
 export const zodiacToneMap = {
   Aries: ["DAF", "LOL"],
   Taurus: ["PRO", "EH"],
@@ -137,3 +98,33 @@ export const zodiacToneMap = {
   Aquarius: ["LOL", "EH"],
   Pisces: ["EH", "AWK"]
 };
+
+export function getStarterOpeningLineSet(caseCount) {
+  const sign = getZodiacSign();
+  const preferredTones = zodiacToneMap[sign] || ["EH"];
+
+  let selectedLines = [];
+
+  if (caseCount === 1) {
+    selectedLines = openingLineBank.filter(line =>
+      ["PRO", "EH"].includes(line.tone)
+    );
+  } else if (caseCount === 2) {
+    selectedLines = openingLineBank.filter(line =>
+      ["AWK", "PRO", "EH"].includes(line.tone)
+    );
+  } else {
+    selectedLines = openingLineBank.filter(line =>
+      preferredTones.includes(line.tone)
+    );
+  }
+
+  // Fallback if too few
+  if (selectedLines.length < 5) {
+    selectedLines = openingLineBank.filter(line =>
+      ["PRO", "EH", "AWK", "LOL", "DAF"].includes(line.tone)
+    );
+  }
+
+  return selectedLines.slice(0, 5);
+}
