@@ -79,4 +79,4 @@ export const openingLineBank = [
 { line: "This is just what the system does.", tone: "EH" },
 { line: "I don’t make the rules. I just read them.", tone: "EH" },
 { line: "It’s not a big deal unless you make it one.", tone: "EH" }
-
+];
