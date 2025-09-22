@@ -1,3 +1,5 @@
+console.log("lines.js loaded");
+
 export const openingLineBank = [
   // PRO — Professional
 { line: "The team has reviewed your assignment.", tone: "PRO" },
@@ -44,7 +46,7 @@ export const openingLineBank = [
 { line: "I’m not good at this.", tone: "AWK" },
 { line: "I’ll just go now.", tone: "AWK" },
 
-  // 🔥 DAF — Direct
+  // DAF — Direct
 { line: "This isn’t my decision.", tone: "DAF" },
 { line: "I just have to say it.", tone: "DAF" },
 { line: "You already know what this is.", tone: "DAF" },
@@ -56,7 +58,7 @@ export const openingLineBank = [
 { line: "This is happening. That’s all.", tone: "DAF" },
 { line: "I’ve done my part. You do yours.", tone: "DAF" },
 
-  // 😂 LOL — Funny
+  // LOL — Funny
 { line: "You’ve been gently rotated out.", tone: "LOL" },
 { line: "Your desk is now a snack station.", tone: "LOL" },
 { line: "You’ve been reclassified as ‘legend.’", tone: "LOL" },
@@ -68,7 +70,7 @@ export const openingLineBank = [
 { line: "You’ve been gently nudged into history.", tone: "LOL" },
 { line: "You’re now eligible for naps.", tone: "LOL" },
 
-  // 😂 EH — Neutral
+  // EH — Neutral
 { line: "This kind of thing happens.", tone: "EH" },
 { line: "It’s just how things go sometimes.", tone: "EH" },
 { line: "You’re not the only one today.", tone: "EH" },
@@ -80,3 +82,4 @@ export const openingLineBank = [
 { line: "I don’t make the rules. I just read them.", tone: "EH" },
 { line: "It’s not a big deal unless you make it one.", tone: "EH" }
 ];
+// ← press Enter here to add a blank line
