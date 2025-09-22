@@ -1,4 +1,5 @@
 console.log("lines.js loaded");
+
 import { getZodiacSign } from "./gamestate.js";
 
 export const openingLineBank = [
@@ -119,7 +120,6 @@ export function getStarterOpeningLineSet(caseCount) {
     );
   }
 
-  // Fallback if too few
   if (selectedLines.length < 5) {
     selectedLines = openingLineBank.filter(line =>
       ["PRO", "EH", "AWK", "LOL", "DAF"].includes(line.tone)
