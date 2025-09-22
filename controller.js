@@ -1,5 +1,13 @@
 console.log("Controller loaded");
 console.log("Ready button clicked");
+function showError(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.display = "block";
+  setTimeout(() => {
+    el.style.display = "none";
+  }, 500);
+}
 
 // Imports
 import { setZodiacSign, currentLine } from "./gamestate.js";
@@ -20,15 +28,6 @@ function showMainScreen() {
 
 function hideIntroScreen() {
   document.getElementById("intro-screen").style.display = "none";
-}
-
-function showError(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.style.display = "block";
-  setTimeout(() => {
-    el.style.display = "none";
-  }, 500);
 }
 
 // Ready Button Logic
@@ -120,18 +119,7 @@ document.getElementById("mass-offboard-btn").addEventListener("click", () => {
   if (caseCount < 8) return showError("error-mass");
   if (massClicks >= 2) return showError("error-exhausted");
   massClicks++;
-
-  // Trigger mass offboarding
-  incrementCaseCount();
-  const newCase = getCaseCount();
-
-  const humanNumber = Math.floor(1000 + Math.random() * 9000);
-  document.getElementById("human-number").textContent = humanNumber;
-
-  const lines = getStarterOpeningLineSet(newCase);
-  renderLines(lines);
-
-  const accessories = getStarterAccessorySet(newCase);
-  renderAccessories(formatAccessoryList(accessories));
+  // trigger mass offboard logic here
 });
+
 
