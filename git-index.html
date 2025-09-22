@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Human Offboarding</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<!-- intro screen -->
+<div id="intro-screen">
+  <div class="intro-box">
+    <h1 class="intro-title">Welcome to Human Offboarding</h1>
+    <ul class="intro-bullets">
+      <li>Your task is to review cases and execute a procedural farewell.</li>
+      <li>Each case is a human (or humans) you will be offboarding.</li>
+      <li>You will choose what you will say, and what will be in-hand when you do.</li>
+    </ul>
+    <p class="intro-note">More cases will unlock more options.</p>
+    <div class="start-controls">
+      <select id="zodiac-select">
+        <option value="" disabled selected>Select a zodiac sign</option>
+        <option>Aries</option>
+        <option>Taurus</option>
+        <option>Gemini</option>
+        <option>Cancer</option>
+        <option>Leo</option>
+        <option>Virgo</option>
+        <option>Libra</option>
+        <option>Scorpio</option>
+        <option>Sagittarius</option>
+        <option>Capricorn</option>
+        <option>Aquarius</option>
+        <option>Pisces</option>
+      </select>
+      <button id="ready-btn" class="primary-button">Ready!</button>
+    </div>
+  </div>
+</div>
+<!-- end intro screen -->
+<!-- main screen -->
+<div id="main-screen" style="display: none;">
+  <div class="case-header">
+    <p class="case-id">CASE #0001</p>
+    <div class="human-id">Human #<span id="human-number">4827</span></div>
+  </div>
+
+  <h2 class="section-heading">Choose your words <button id="refresh-btn">Refresh</button></h2>
+  <p id="refresh-error" class="error-message hidden">Available after 5 cases</p>
+  <ul id="opening-line-options" class="option-list">
+    <!-- dynamically populated: 1 PRO, 1 NEU, 1 random -->
+  </ul>
+
+  <h2 class="section-heading">Choose an accessory <button id="change-btn">Change</button></h2>
+  <p id="change-error" class="error-message hidden">Available after 5 cases</p>
+  <ul id="accessory-options" class="option-list">
+    <!-- dynamically populated: alphabetical starterAccessorySet -->
+  </ul>
+
+  <div class="action-buttons">
+    <button id="offboard-btn" class="primary-button">OFFBOARD</button>
+    <button id="mass-offboard-btn" class="primary-button">MASS OFFBOARD</button>
+  </div>
+  <p id="offboard-error" class="error-message hidden">Must choose your words and your accessory.</p>
+  <p id="mass-error" class="error-message hidden">Available after 8 cases.</p>
+</div>
+<!-- end main screen -->
+
+  <script type="module" src="controller.js"></script>
+</body>
+</html>
