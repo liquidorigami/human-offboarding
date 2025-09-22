@@ -46,13 +46,13 @@
   </div>
 
   <h2 class="section-heading">Choose your words <button id="refresh-btn">Refresh</button></h2>
-  <p id="refresh-error" class="error-message hidden">Available after 5 cases</p>
+  <div id="error-refresh" class="error hidden">Available after 5 cases</div>
   <ul id="opening-line-options" class="option-list">
     <!-- dynamically populated: 1 PRO, 1 NEU, 1 random -->
   </ul>
 
   <h2 class="section-heading">Choose an accessory <button id="change-btn">Change</button></h2>
-  <p id="change-error" class="error-message hidden">Available after 5 cases</p>
+  <div id="error-change" class="error hidden">Available after 5 cases</div>
   <ul id="accessory-options" class="option-list">
     <!-- dynamically populated: alphabetical starterAccessorySet -->
   </ul>
@@ -61,8 +61,9 @@
     <button id="offboard-btn" class="primary-button">OFFBOARD</button>
     <button id="mass-offboard-btn" class="primary-button">MASS OFFBOARD</button>
   </div>
-  <p id="offboard-error" class="error-message hidden">Must choose your words and your accessory.</p>
-  <p id="mass-error" class="error-message hidden">Available after 8 cases.</p>
+<div id="error-offboard" class="error hidden">Must choose your words and your accessory.</div>
+<div id="error-mass" class="error hidden">Available after 8 cases</div>
+<div id="error-exhausted" class="error hidden">Mass Upload exhausted</div>
 </div>
 <!-- end main screen -->
 
