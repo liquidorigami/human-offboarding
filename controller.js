@@ -40,7 +40,7 @@ document.getElementById("ready-btn")?.addEventListener("click", () => {
   setupCase();
 });
 
-// Placeholder: Case Setup
+// Case Setup
 function setupCase() {
   incrementCaseCount();
   const currentCase = getCaseCount();
@@ -67,7 +67,22 @@ function setupCase() {
   }
 }
 
-// Accessory Rendering
+//  Rendering
+function renderLines(lines) {
+  const lineList = document.getElementById("opening-line-options");
+  lineList.innerHTML = "";
+  lines.forEach(line => {
+    const li = document.createElement("li");
+    li.textContent = line.line;
+    li.classList.add("option");
+    li.addEventListener("click", () => {
+      currentLine = line.line;
+      li.classList.toggle("selected");
+    });
+    lineList.appendChild(li);
+  });
+}
+
 function renderAccessories(accessories) {
   const accessoryList = document.getElementById("accessory-options");
   accessoryList.innerHTML = "";
@@ -75,9 +90,24 @@ function renderAccessories(accessories) {
     const li = document.createElement("li");
     li.textContent = item;
     li.classList.add("option");
+    li.addEventListener("click", () => {
+      currentAccessory = item;
+      li.classList.toggle("selected");
+    });
     accessoryList.appendChild(li);
   });
 }
+
+// MassOffboard logic
+let massClicks = 0;
+
+document.getElementById("mass-btn").addEventListener("click", () => {
+  const caseCount = getCaseCount();
+  if (caseCount < 8) return showError("error-mass");
+  if (massClicks >= 2) return showError("error-exhausted");
+  massClicks++;
+  // trigger mass offboard logic here
+});
 
 // Modal Confirm Logic
 document.getElementById("confirm-modal").addEventListener("click", () => {
