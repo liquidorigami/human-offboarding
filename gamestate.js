@@ -2,9 +2,12 @@
 export let zodiacSign = null;
 
 // Case tracking
-export let caseCount = 1;
+let caseCount = 1;
 export function incrementCaseCount() {
-  caseCount += 1;
+  caseCount++;
+}
+export function getCaseCount() {
+  return caseCount;
 }
 
 // Selections per case
@@ -14,6 +17,7 @@ export let selectedAccessories = [];
 export function recordSelections({ line, accessory }) {
   selectedOpeningLines.push(line);
   selectedAccessories.push(accessory);
+  
 }
 
 // Current selections (for enabling OFFBOARD)
