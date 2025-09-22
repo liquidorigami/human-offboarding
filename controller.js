@@ -5,6 +5,7 @@ console.log("Controller loaded");
 // ─────────────────────────────────────────────────────────────
 import { zodiacSign } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
+import { openingLineBank } from "./lines.js";
 import { getStarterAccessorySet } from "./accessories.js";
 import { formatAccessoryList } from "./ui.js";
 
