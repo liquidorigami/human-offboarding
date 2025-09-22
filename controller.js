@@ -1,4 +1,5 @@
 console.log("Controller loaded");
+let caseCount = 1;
 
 // ─────────────────────────────────────────────────────────────
 // Imports
@@ -6,8 +7,8 @@ console.log("Controller loaded");
 import { zodiacSign } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
 import { openingLineBank } from "./lines.js";
-import { getStarterAccessorySet } from "./accessories.js";
-import { formatAccessoryList } from "./ui.js";
+import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
+import { formatAccessoryList, showAccessoryModal, hideAccessoryModal, getSelectedAccessories } from "./ui.js";
 
 // ─────────────────────────────────────────────────────────────
 // DOM Helpers (inline for now)
@@ -47,6 +48,8 @@ document.getElementById("ready-btn")?.addEventListener("click", () => {
 // Case Setup
 // ─────────────────────────────────────────────────────────────
 function setupCase() {
+  caseCount++;
+
   // Generate Human ID
   const humanNumber = Math.floor(1000 + Math.random() * 9000);
   document.getElementById("human-number").textContent = humanNumber;
@@ -72,4 +75,27 @@ function setupCase() {
     li.classList.add("option");
     accessoryList.appendChild(li);
   });
+
+  // Accessory selection
+    const caseCount = 1; // Replace with actual case tracking
+
+  if (caseCount % 5 === 0) {
+    const pool = getAccessorySelectionPool();
+    showAccessoryModal(pool);
+  } else {
+    const accessories = getStarterAccessorySet(caseCount);
+    renderAccessories(accessories);
+  }
+}
+
+function renderAccessories(accessories) {
+  const accessoryList = document.getElementById("accessory-options");
+  accessoryList.innerHTML = "";
+  accessories.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    li.classList.add("option");
+    accessoryList.appendChild(li);
+  });
+
 }
