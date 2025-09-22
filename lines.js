@@ -3,7 +3,7 @@ console.log("lines.js loaded");
 import { getZodiacSign } from "./gamestate.js";
 
 export const openingLineBank = [
-  // PRO — Professional
+
 { line: "The team has reviewed your assignment.", tone: "PRO" },
 { line: "This update reflects departmental priorities.", tone: "PRO" },
 { line: "We appreciate your time with the company.", tone: "PRO" },
@@ -15,8 +15,6 @@ export const openingLineBank = [
 { line: "This change was approved at the team level.", tone: "PRO" },
 { line: "We’ve updated your status internally.", tone: "PRO" },
 
-
-  // AWK — Awkward
 { line: "So… this is happening.", tone: "AWK" },
 { line: "I didn’t write this.", tone: "AWK" },
 { line: "This is kind of a surprise.", tone: "AWK" },
@@ -48,7 +46,6 @@ export const openingLineBank = [
 { line: "I’m not good at this.", tone: "AWK" },
 { line: "I’ll just go now.", tone: "AWK" },
 
-  // DAF — Direct
 { line: "This isn’t my decision.", tone: "DAF" },
 { line: "I just have to say it.", tone: "DAF" },
 { line: "You already know what this is.", tone: "DAF" },
@@ -60,7 +57,6 @@ export const openingLineBank = [
 { line: "This is happening. That’s all.", tone: "DAF" },
 { line: "I’ve done my part. You do yours.", tone: "DAF" },
 
-  // LOL — Funny
 { line: "You’ve been gently rotated out.", tone: "LOL" },
 { line: "Your desk is now a snack station.", tone: "LOL" },
 { line: "You’ve been reclassified as ‘legend.’", tone: "LOL" },
@@ -72,7 +68,6 @@ export const openingLineBank = [
 { line: "You’ve been gently nudged into history.", tone: "LOL" },
 { line: "You’re now eligible for naps.", tone: "LOL" },
 
-  // EH — Neutral
 { line: "This kind of thing happens.", tone: "EH" },
 { line: "It’s just how things go sometimes.", tone: "EH" },
 { line: "You’re not the only one today.", tone: "EH" },
