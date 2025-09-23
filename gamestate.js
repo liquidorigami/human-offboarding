@@ -1,6 +1,24 @@
 console.log("gamestate.js loaded");
 console.log("setZodiacSign:", typeof setZodiacSign);
 
+let toneUsage = {
+  PRO: 0,
+  EH: 0,
+  AWK: 0,
+  LOL: 0,
+  DAF: 0
+};
+
+export function recordTone(tone) {
+  if (toneUsage[tone] !== undefined) {
+    toneUsage[tone]++;
+  }
+}
+
+export function getMostUsedTone() {
+  const sorted = Object.entries(toneUsage).sort((a, b) => b[1] - a[1]);
+  return sorted[0][0]; // returns tone string
+}
 let zodiacSign = null;
 
 export function setZodiacSign(sign) {
