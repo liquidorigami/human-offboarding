@@ -1,72 +1,95 @@
-export function triggerMassOffboard({
-  massOffboardUses,
-  reactionBank,
-  reactionLog,
-  score,
-  caseNumber,
-  lastMassOffboardRound,
-  selectedLine,
-  selectedAccessory,
-  hasDelivered,
-  createHumanID,
-  calculateToneScore,
-  getZodiacSensitivity,
-  toneMatchesSensitivity,
-  renderLineOptions,
-  renderAccessoryOptions,
-  updateDOM
-}) {
-  console.log("Mass Offboard triggered");
+import {
+  getZodiacSign,
+  getCaseCount,
+  recordSelections,
+  currentLine,
+  currentAccessory,
+  getMostUsedTone,
+  getTopToneFromHistory
+} from "./gamestate.js";
 
-  if (massOffboardUses >= 2) {
-    console.warn("Mass Offboard blocked — usage limit reached");
-    updateDOM("exhausted");
-    return { massOffboardUses, score, caseNumber, lastMassOffboardRound };
-  }
+import {
+  getZodiacFromHumanID,
+  getToneScore,
+  applyPenalty,
+  scoreToStars,
+  zodiacCompatibility
+} from "./reactions.js";
 
-  const batchSize = 4;
-  for (let i = 0; i < batchSize; i++) {
-    const humanID = createHumanID();
-    const selectedTone = "NEU";
-    const toneScore = calculateToneScore(selectedTone);
-    const accessoryBonus = 0;
-    let total = toneScore + accessoryBonus;
+import { shuffle, pickRandom } from "./util.js";
 
-    const sensitivity = getZodiacSensitivity(humanID);
-    if (toneMatchesSensitivity(selectedTone, sensitivity)) {
-      total += 2;
+// Internal state
+let massOffboardUses = 0;
+let lastMassOffboardRound = 0;
+
+// Reaction tracking
+const reactionLog = {};
+const reactionBank = {
+  PRO: ["Nods silently", "Accepts with grace", "Smiles faintly"],
+  EH: ["Shrugs", "Looks away", "Sighs"],
+  AWK: ["Fidgets", "Avoids eye contact", "Mumbles something"],
+  LOL: ["Laughs nervously", "Cracks a joke", "Snorts"],
+  DAF: ["Walks out", "Rolls eyes", "Deletes badge"]
+};
+
+// Check if mass offboard is allowed
+export function canMassOffboard() {
+  const totalRows = getCaseCount() - 1;
+  const cooldown = totalRows - lastMassOffboardRound;
+  return totalRows >= 8 && cooldown >= 4 && massOffboardUses < 2;
+}
+
+// Trigger mass offboard
+export function triggerMassOffboard(addScoreRow) {
+  if (!currentLine || !currentAccessory) return;
+
+  const totalRows = getCaseCount() - 1;
+  const playerZodiac = getZodiacSign();
+  const lineTone = getMostUsedTone();
+  const accessoryTone = getTopToneFromHistory();
+
+  const volume = getMassVolume(totalRows);
+  for (let i = 0; i < volume; i++) {
+    const humanID = Math.floor(1000 + Math.random() * 9000);
+    const humanZodiac = getZodiacFromHumanID(humanID);
+
+    const lineScore = getToneScore(lineTone, humanZodiac);
+    const accessoryScore = getToneScore(accessoryTone, humanZodiac);
+
+    const penalizedLine = applyPenalty(lineScore, playerZodiac, humanZodiac);
+    const penalizedAccessory = applyPenalty(accessoryScore, playerZodiac, humanZodiac);
+
+    let total = penalizedLine + penalizedAccessory;
+
+    // Sensitivity bonus if tone matches most favorable
+    const sensitivity = zodiacCompatibility[humanZodiac]?.most;
+    if (playerZodiac === sensitivity) {
+      total += 1.5; // subtle bonus
     }
 
-    const maxPossible = toneScore + accessoryBonus + 2;
-    const percentage = total / maxPossible;
-    const stars = Math.round(percentage * 5);
-    const starRating = "★".repeat(stars) + "☆".repeat(5 - stars);
+    const rating = scoreToStars(total);
+    const reactionPool = reactionBank[lineTone] || ["Blank stare"];
+    const reactionText = pickRandom(reactionPool);
 
-    const reactionPool = reactionBank[selectedTone] || [];
-    const reactionText = reactionPool[Math.floor(Math.random() * reactionPool.length)] || "Blank stare";
     reactionLog[reactionText] = (reactionLog[reactionText] || 0) + 1;
 
-    score += total;
-    caseNumber += 1;
-
-    updateDOM("row", { humanID, reactionText, starRating });
+    recordSelections({ line: currentLine, accessory: currentAccessory });
+    addScoreRow(humanID, reactionText, rating);
   }
 
-  massOffboardUses += 1;
-  lastMassOffboardRound = caseNumber;
+  massOffboardUses++;
+  lastMassOffboardRound = getCaseCount() - 1;
+}
 
-  updateDOM("score", { caseNumber, score });
-  selectedLine = null;
-  selectedAccessory = null;
-  hasDelivered = false;
+// Dynamic volume logic
+function getMassVolume(totalRows) {
+  if (totalRows < 16) return randomRange(4, 9);
+  if (totalRows < 22) return randomRange(6, 11);
+  if (totalRows < 38) return randomRange(9, 17);
+  return randomRange(5, 12);
+}
 
-  renderLineOptions();
-  renderAccessoryOptions();
-  updateDOM("resetOptions");
-
-  if (massOffboardUses >= 2) {
-    updateDOM("exhausted");
-  }
-
-  return { massOffboardUses, score, caseNumber, lastMassOffboardRound };
+// Random integer between min and max
+function randomRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
