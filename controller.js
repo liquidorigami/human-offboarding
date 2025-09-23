@@ -1,4 +1,6 @@
 console.log("Controller loaded");
+let currentLine = null;
+let currentAccessory = null;
 
 // Error display
 function showError(id) {
@@ -13,8 +15,6 @@ function showError(id) {
 // Imports
 import {
   setZodiacSign,
-  currentLine,
-  currentAccessory,
   incrementCaseCount,
   getCaseCount,
   recordSelections,
