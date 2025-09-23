@@ -66,10 +66,6 @@ function setupCase() {
   const lines = getStarterOpeningLineSet(currentCase);
   renderLines(lines);
 
-  if (currentCase % 5 === 0) {
-    const pool = getAccessorySelectionPool();
-    showAccessoryModal(pool);
-  } else {
     const accessories = getStarterAccessorySet(currentCase);
     renderAccessories(formatAccessoryList(accessories));
   }
@@ -128,9 +124,10 @@ document.getElementById("change-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
   if (caseCount < 5) return showError("error-change");
 
-  const accessories = getStarterAccessorySet(caseCount);
-  renderAccessories(formatAccessoryList(accessories));
+  const pool = getAccessorySelectionPool();
+  showAccessoryModal(pool);
 });
+
 
 document.getElementById("offboard-btn").addEventListener("click", () => {
   if (!currentLine || !currentAccessory) {
@@ -182,11 +179,35 @@ function addScoreRow(id, reaction, rating) {
 // MassOffboard logic
 let massClicks = 0;
 
-document.getElementById("mass-offboard-btn").addEventListener("click", () => {
-  const caseCount = getCaseCount();
-  if (caseCount < 8) return showError("error-mass");
-  if (massClicks >= 2) return showError("error-exhausted");
-  massClicks++;
+document.getElementById("offboard-btn").addEventListener("click", () => {
+  if (!currentLine || !currentAccessory) {
+    return showError("error-offboard");
+  }
 
+  incrementCaseCount(); // ✅ move this here
+  const caseCount = getCaseCount();
+  const humanID = document.getElementById("human-number").textContent;
+
+  const reaction = "Neutral"; // placeholder
+  const rating = "★★★";       // placeholder
+
+  recordSelections({ line: currentLine, accessory: currentAccessory });
+  addScoreRow(humanID, reaction, rating);
   setupCase();
 });
+
+document.getElementById("confirm-modal").addEventListener("click", () => {
+  const selected = getSelectedAccessories();
+  if (selected.length === 3) {
+    hideAccessoryModal();
+    renderAccessories(selected);
+    recordSelections({ accessory: selected });
+  } else {
+    alert("Please select exactly 3 accessories.");
+  }
+});
+
+document.getElementById("cancel-modal").addEventListener("click", () => {
+  hideAccessoryModal();
+});
+
