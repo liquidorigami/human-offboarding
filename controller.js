@@ -11,6 +11,7 @@ function showError(id) {
 
 // Imports
 import { setZodiacSign, currentLine, currentAccessory } from "./gamestate.js";
+import { getRefreshedOpeningLineSet } from "./lines.js";
 import { incrementCaseCount, getCaseCount, recordSelections } from "./gamestate.js";
 import { getStarterOpeningLineSet } from "./lines.js";
 import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
@@ -84,12 +85,16 @@ function renderLines(lines) {
     const li = document.createElement("li");
     li.textContent = line.line;
     li.classList.add("option");
-    li.addEventListener("click", () => {
-      document.querySelectorAll("#opening-line-options li").forEach(el =>
-        el.classList.remove("selected")
-      );
-      li.classList.add("selected");
-      currentLine = line.line;
+
+      li.addEventListener("click", () => {
+  document.querySelectorAll("#opening-line-options li").forEach(el =>
+    el.classList.remove("selected")
+  );
+  li.classList.add("selected");
+  currentLine = line.line;
+  recordTone(line.tone); // ✅ track tone usage
+});
+
     });
     lineList.appendChild(li);
   });
@@ -117,7 +122,8 @@ function renderAccessories(accessories) {
 document.getElementById("refresh-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
   if (caseCount < 5) return showError("error-refresh");
-  const lines = getStarterOpeningLineSet(caseCount);
+
+  const lines = getRefreshedOpeningLineSet(caseCount);
   renderLines(lines);
 });
 
