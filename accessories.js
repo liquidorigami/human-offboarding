@@ -1,3 +1,31 @@
+import { getMostUsedTone } from "./gamestate.js";
+import { shuffle, pickRandom } from "./util.js";
+
+// Starter Accessory Logic
+export function getStarterAccessorySet(caseCount) {
+  const any = accessoryBank.filter(a =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(a.tone)
+  );
+
+  const selected = [
+    pickRandom(any),
+    pickRandom(any),
+    pickRandom(any)
+  ];
+
+  while (selected.length < 3) {
+    selected.push(pickRandom(any));
+  }
+
+  return shuffle(selected.map(a => a.item));
+}
+
+// Selection Pool for Modal
+export function getAccessorySelectionPool() {
+  return accessoryBank.map(a => a.item);
+}
+
+// Accessory Bank
 export const accessoryBank = [
 
 { item: "tissue box", tone: "PRO" },
@@ -50,34 +78,3 @@ export const accessoryBank = [
 { item: "office chair", tone: "EH" },
 { item: "farewell card", tone: "EH" },
 ];
-
-import { getZodiacSign } from "./gamestate.js";
-import { zodiacToneMap } from "./lines.js";
-
-function pickRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-export function getStarterAccessorySet(caseCount) {
-  const pro = accessoryBank.filter(a => a.tone === "PRO");
-  const eh = accessoryBank.filter(a => a.tone === "EH");
-  const any = accessoryBank.filter(a =>
-    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(a.tone)
-  );
-
-  const selected = [
-    pickRandom(pro),
-    pickRandom(eh),
-    pickRandom(any)
-  ];
-
-  return selected.map(a => a.item);
-}
-
-export function getAccessorySelectionPool() {
-  const shuffled = [...accessoryBank].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 7).map(a => a.item);
-}
-
-
-
