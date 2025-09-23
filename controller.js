@@ -1,6 +1,32 @@
-console.log("Controller loaded");
-let currentLine = null;
-let currentAccessory = null;
+import {
+  setZodiacSign,
+  getZodiacSign,
+  incrementCaseCount,
+  getCaseCount,
+  recordSelections,
+  recordTone,
+  setCurrentLine,
+  setCurrentAccessory,
+  currentLine,
+  currentAccessory,
+  clearCurrentSelections
+} from "./gamestate.js";
+
+import { getStarterOpeningLineSet, getRefreshedOpeningLineSet } from "./lines.js";
+import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
+import {
+  formatAccessoryList,
+  showAccessoryModal,
+  hideAccessoryModal,
+  getSelectedAccessories
+} from "./ui.js";
+
+import {
+  getZodiacFromHumanID,
+  getToneScore,
+  applyPenalty,
+  scoreToStars
+} from "./reactions.js";
 
 // Error display
 function showError(id) {
@@ -12,24 +38,7 @@ function showError(id) {
   }, 1500);
 }
 
-// Imports
-import {
-  setZodiacSign,
-  incrementCaseCount,
-  getCaseCount,
-  recordSelections,
-  recordTone
-} from "./gamestate.js";
-import { getRefreshedOpeningLineSet, getStarterOpeningLineSet } from "./lines.js";
-import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
-import {
-  formatAccessoryList,
-  showAccessoryModal,
-  hideAccessoryModal,
-  getSelectedAccessories
-} from "./ui.js";
-
-// DOM Helpers
+// Screen toggles
 function showMainScreen() {
   document.getElementById("main-screen").style.display = "block";
 }
@@ -38,42 +47,25 @@ function hideIntroScreen() {
   document.getElementById("intro-screen").style.display = "none";
 }
 
-// Ready Button Logic
-document.getElementById("ready-btn")?.addEventListener("click", () => {
-  const select = document.getElementById("zodiac-select");
-  const selected = select.value;
-
-  if (!selected) {
-    console.warn("No zodiac selected");
-    return;
-  }
-
-  setZodiacSign(selected);
-  hideIntroScreen();
-  showMainScreen();
-  setupCase();
-});
-
-// Case Setup
+// Case setup
 function setupCase() {
   incrementCaseCount();
-  const currentCase = getCaseCount();
+  clearCurrentSelections();
 
+  const currentCase = getCaseCount();
   const humanNumber = Math.floor(1000 + Math.random() * 9000);
-  const humanEl = document.getElementById("human-number");
-  if (humanEl) humanEl.textContent = humanNumber;
+  document.getElementById("human-number").textContent = humanNumber;
 
   const lines = getStarterOpeningLineSet(currentCase);
   renderLines(lines);
 
-    const accessories = getStarterAccessorySet(currentCase);
-    renderAccessories(formatAccessoryList(accessories));
-  }
+  const accessories = getStarterAccessorySet(currentCase);
+  renderAccessories(formatAccessoryList(accessories));
 
   updateSidebar(currentCase);
 }
 
-// Rendering
+// Line rendering
 function renderLines(lines) {
   const lineList = document.getElementById("opening-line-options");
   lineList.innerHTML = "";
@@ -86,13 +78,14 @@ function renderLines(lines) {
         el.classList.remove("selected")
       );
       li.classList.add("selected");
-      currentLine = line.line;
+      setCurrentLine(line.line);
       recordTone(line.tone);
     });
     lineList.appendChild(li);
   });
 }
 
+// Accessory rendering
 function renderAccessories(accessories) {
   const accessoryList = document.getElementById("accessory-options");
   accessoryList.innerHTML = "";
@@ -105,13 +98,41 @@ function renderAccessories(accessories) {
         el.classList.remove("selected")
       );
       li.classList.add("selected");
-      currentAccessory = item;
+      setCurrentAccessory(item);
     });
     accessoryList.appendChild(li);
   });
 }
 
-// Buttons
+// Score table
+function addScoreRow(id, reaction, rating) {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${id}</td>
+    <td>${reaction}</td>
+    <td>${rating}</td>
+  `;
+  document.getElementById("score-table-body").appendChild(row);
+}
+
+function updateSidebar(caseCount, earned = 0) {
+  document.getElementById("score-cases").textContent = caseCount;
+  document.getElementById("score-earned").textContent = earned;
+}
+
+// Ready button
+document.getElementById("ready-btn")?.addEventListener("click", () => {
+  const select = document.getElementById("zodiac-select");
+  const selected = select.value;
+  if (!selected) return console.warn("No zodiac selected");
+
+  setZodiacSign(selected);
+  hideIntroScreen();
+  showMainScreen();
+  setupCase();
+});
+
+// Refresh button
 document.getElementById("refresh-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
   if (caseCount < 5) return showError("error-refresh");
@@ -120,6 +141,7 @@ document.getElementById("refresh-btn").addEventListener("click", () => {
   renderLines(lines);
 });
 
+// Change button
 document.getElementById("change-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
   if (caseCount < 5) return showError("error-change");
@@ -128,7 +150,24 @@ document.getElementById("change-btn").addEventListener("click", () => {
   showAccessoryModal(pool);
 });
 
+// Confirm modal
+document.getElementById("confirm-modal").addEventListener("click", () => {
+  const selected = getSelectedAccessories();
+  if (selected.length === 3) {
+    hideAccessoryModal();
+    renderAccessories(selected);
+    recordSelections({ accessory: selected });
+  } else {
+    alert("Please select exactly 3 accessories.");
+  }
+});
 
+// Cancel modal
+document.getElementById("cancel-modal").addEventListener("click", () => {
+  hideAccessoryModal();
+});
+
+// OFFBOARD button
 document.getElementById("offboard-btn").addEventListener("click", () => {
   if (!currentLine || !currentAccessory) {
     return showError("error-offboard");
@@ -136,16 +175,27 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
 
   const caseCount = getCaseCount();
   const humanID = document.getElementById("human-number").textContent;
+  const playerZodiac = getZodiacSign();
+  const humanZodiac = getZodiacFromHumanID(humanID);
 
-  // Placeholder logic — you can replace with actual reaction/rating logic later
-  const reaction = "Neutral";
-  const rating = "★★★";
+  const lineTone = getMostUsedTone(); // fallback if needed
+  const accessoryTone = getTopToneFromHistory(); // from gamestate
+
+  const lineScore = getToneScore(lineTone, humanZodiac);
+  const accessoryScore = getToneScore(accessoryTone, humanZodiac);
+
+  const penalizedLine = applyPenalty(lineScore, playerZodiac, humanZodiac);
+  const penalizedAccessory = applyPenalty(accessoryScore, playerZodiac, humanZodiac);
+
+  const totalScore = penalizedLine + penalizedAccessory;
+  const rating = scoreToStars(totalScore);
+
+  const reaction = "Neutral"; // placeholder — can be dynamic later
 
   recordSelections({ line: currentLine, accessory: currentAccessory });
   addScoreRow(humanID, reaction, rating);
   setupCase();
 });
-
 
 // Sidebar toggles
 document.getElementById("progress-toggle").addEventListener("click", () => {
@@ -159,55 +209,3 @@ document.getElementById("clockout-toggle").addEventListener("click", () => {
 document.getElementById("cease-btn").addEventListener("click", () => {
   location.reload();
 });
-
-// Sidebar updates
-function updateSidebar(caseCount, earned = 0) {
-  document.getElementById("score-cases").textContent = caseCount;
-  document.getElementById("score-earned").textContent = earned;
-}
-
-function addScoreRow(id, reaction, rating) {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${id}</td>
-    <td>${reaction}</td>
-    <td>${rating}</td>
-  `;
-  document.getElementById("score-table-body").appendChild(row);
-}
-
-// MassOffboard logic
-let massClicks = 0;
-
-document.getElementById("offboard-btn").addEventListener("click", () => {
-  if (!currentLine || !currentAccessory) {
-    return showError("error-offboard");
-  }
-
-  incrementCaseCount(); // ✅ move this here
-  const caseCount = getCaseCount();
-  const humanID = document.getElementById("human-number").textContent;
-
-  const reaction = "Neutral"; // placeholder
-  const rating = "★★★";       // placeholder
-
-  recordSelections({ line: currentLine, accessory: currentAccessory });
-  addScoreRow(humanID, reaction, rating);
-  setupCase();
-});
-
-document.getElementById("confirm-modal").addEventListener("click", () => {
-  const selected = getSelectedAccessories();
-  if (selected.length === 3) {
-    hideAccessoryModal();
-    renderAccessories(selected);
-    recordSelections({ accessory: selected });
-  } else {
-    alert("Please select exactly 3 accessories.");
-  }
-});
-
-document.getElementById("cancel-modal").addEventListener("click", () => {
-  hideAccessoryModal();
-});
-
