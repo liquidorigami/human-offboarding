@@ -225,3 +225,7 @@ button.primary-button:disabled {
   text-align: center;
 }
 
+#progress-panel.scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+}
