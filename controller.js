@@ -138,14 +138,17 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
   }
 
   const caseCount = getCaseCount();
-  const reaction = "Neutral"; // placeholder
-  const rating = "★★★"; // placeholder
   const humanID = document.getElementById("human-number").textContent;
+
+  // Placeholder logic — you can replace with actual reaction/rating logic later
+  const reaction = "Neutral";
+  const rating = "★★★";
 
   recordSelections({ line: currentLine, accessory: currentAccessory });
   addScoreRow(humanID, reaction, rating);
   setupCase();
 });
+
 
 // Sidebar toggles
 document.getElementById("progress-toggle").addEventListener("click", () => {
