@@ -150,5 +150,11 @@ export function getRefreshedOpeningLineSet(caseCount) {
     ];
   }
 
+  // ✅ Ensure 4 options even if pool is small
+  while (selected.length < 4) {
+    selected.push(pickRandom(any));
+  }
+
   return shuffle(selected);
 }
+
