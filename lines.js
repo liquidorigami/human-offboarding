@@ -1,6 +1,7 @@
 console.log("lines.js loaded");
 
 import { getZodiacSign } from "./gamestate.js";
+import { getMostUsedTone } from "./gamestate.js";
 
 export const openingLineBank = [
 
@@ -99,6 +100,10 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
 export function getStarterOpeningLineSet(caseCount) {
   const pro = openingLineBank.filter(l => l.tone === "PRO");
   const eh = openingLineBank.filter(l => l.tone === "EH");
@@ -116,4 +121,34 @@ export function getStarterOpeningLineSet(caseCount) {
   if (caseCount >= 3) selected.push(pickRandom(any));
 
   return selected;
+}
+
+
+export function getRefreshedOpeningLineSet(caseCount) {
+  const pro = openingLineBank.filter(l => l.tone === "PRO");
+  const any = openingLineBank.filter(l =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(l.tone)
+  );
+
+  let selected;
+
+  if (caseCount < 11) {
+    selected = [
+      pickRandom(pro),
+      pickRandom(any),
+      pickRandom(any),
+      pickRandom(any)
+    ];
+  } else {
+    const tone = getMostUsedTone();
+    const preferred = openingLineBank.filter(l => l.tone === tone);
+    selected = [
+      pickRandom(preferred),
+      pickRandom(preferred),
+      pickRandom(any),
+      pickRandom(any)
+    ];
+  }
+
+  return shuffle(selected);
 }
