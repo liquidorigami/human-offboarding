@@ -1,13 +1,16 @@
 let selectedAccessories = [];
 
+// Format accessory list alphabetically
 export function formatAccessoryList(accessories) {
   return [...accessories].sort((a, b) => a.localeCompare(b));
 }
 
+// Return selected accessories from modal
 export function getSelectedAccessories() {
   return selectedAccessories;
 }
 
+// Show accessory modal with selectable items
 export function showAccessoryModal(pool) {
   const modal = document.getElementById("accessory-modal");
   const optionList = document.getElementById("accessory-modal-options");
@@ -35,6 +38,7 @@ export function showAccessoryModal(pool) {
   modal.style.display = "flex";
 }
 
+// Hide accessory modal
 export function hideAccessoryModal() {
   document.getElementById("accessory-modal").style.display = "none";
 }
