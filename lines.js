@@ -1,8 +1,91 @@
-console.log("lines.js loaded");
 
-import { getZodiacSign } from "./gamestate.js";
 import { getMostUsedTone } from "./gamestate.js";
+import { shuffle, pickRandom } from "./util.js";
 
+// Starter Line Logic
+export function getStarterOpeningLineSet(caseCount) {
+  const pro = openingLineBank.filter(l => l.tone === "PRO");
+  const eh = openingLineBank.filter(l => l.tone === "EH");
+  const any = openingLineBank.filter(l =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(l.tone)
+  );
+
+  let selected;
+
+  if (caseCount === 1) {
+    selected = [
+      pickRandom(pro),
+      pickRandom(pro),
+      pickRandom(eh),
+      pickRandom(any)
+    ];
+  } else {
+    selected = [
+      pickRandom(pro),
+      pickRandom(eh),
+      pickRandom(any),
+      pickRandom(any)
+    ];
+  }
+
+  while (selected.length < 4) {
+    selected.push(pickRandom(any));
+  }
+
+  return shuffle(selected);
+}
+
+// Refresh Line Logic
+export function getRefreshedOpeningLineSet(caseCount) {
+  const pro = openingLineBank.filter(l => l.tone === "PRO");
+  const any = openingLineBank.filter(l =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(l.tone)
+  );
+
+  let selected;
+
+  if (caseCount < 11) {
+    selected = [
+      pickRandom(pro),
+      pickRandom(any),
+      pickRandom(any),
+      pickRandom(any)
+    ];
+  } else {
+    const tone = getMostUsedTone();
+    const preferred = openingLineBank.filter(l => l.tone === tone);
+    selected = [
+      pickRandom(preferred),
+      pickRandom(preferred),
+      pickRandom(any),
+      pickRandom(any)
+    ];
+  }
+
+  while (selected.length < 4) {
+    selected.push(pickRandom(any));
+  }
+
+  return shuffle(selected);
+}
+
+// Tone Favorability Map
+export const zodiacToneRank = {
+  Aries:     ["LOL", "DAF", "PRO", "AWK", "EH"],
+  Taurus:    ["PRO", "EH", "LOL", "AWK", "DAF"],
+  Gemini:    ["AWK", "LOL", "EH", "PRO", "DAF"],
+  Cancer:    ["EH", "AWK", "LOL", "PRO", "DAF"],
+  Leo:       ["DAF", "LOL", "PRO", "EH", "AWK"],
+  Virgo:     ["PRO", "DAF", "EH", "AWK", "LOL"],
+  Libra:     ["LOL", "PRO", "EH", "DAF", "AWK"],
+  Scorpio:   ["DAF", "PRO", "EH", "LOL", "AWK"],
+  Sagittarius:["LOL", "AWK", "DAF", "PRO", "EH"],
+  Capricorn: ["PRO", "EH", "DAF", "LOL", "AWK"],
+  Aquarius:  ["AWK", "LOL", "EH", "PRO", "DAF"],
+  Pisces:    ["EH", "AWK", "LOL", "PRO", "DAF"]
+};
+
+// Opening Line Bank
 export const openingLineBank = [
 
 { line: "The team has reviewed your assignment.", tone: "PRO" },
@@ -80,81 +163,3 @@ export const openingLineBank = [
 { line: "I don’t make the rules. I just read them.", tone: "EH" },
 { line: "It’s not a big deal unless you make it one.", tone: "EH" }
 ];
-
-export const zodiacToneMap = {
-  Aries: ["DAF", "LOL"],
-  Taurus: ["PRO", "EH"],
-  Gemini: ["LOL", "AWK"],
-  Cancer: ["EH", "AWK"],
-  Leo: ["DAF", "PRO"],
-  Virgo: ["PRO", "EH"],
-  Libra: ["AWK", "LOL"],
-  Scorpio: ["DAF", "AWK"],
-  Sagittarius: ["LOL", "DAF"],
-  Capricorn: ["PRO", "DAF"],
-  Aquarius: ["LOL", "EH"],
-  Pisces: ["EH", "AWK"]
-};
-
-function pickRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-export function getStarterOpeningLineSet(caseCount) {
-  const pro = openingLineBank.filter(l => l.tone === "PRO");
-  const eh = openingLineBank.filter(l => l.tone === "EH");
-  const any = openingLineBank.filter(l =>
-    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(l.tone)
-  );
-
-  const selected = [
-    pickRandom(pro),
-    pickRandom(eh),
-    pickRandom(any)
-  ];
-
-  if (caseCount >= 2) selected.push(pickRandom(any));
-  if (caseCount >= 3) selected.push(pickRandom(any));
-
-  return selected;
-}
-
-
-export function getRefreshedOpeningLineSet(caseCount) {
-  const pro = openingLineBank.filter(l => l.tone === "PRO");
-  const any = openingLineBank.filter(l =>
-    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(l.tone)
-  );
-
-  let selected;
-
-  if (caseCount < 11) {
-    selected = [
-      pickRandom(pro),
-      pickRandom(any),
-      pickRandom(any),
-      pickRandom(any)
-    ];
-  } else {
-    const tone = getMostUsedTone();
-    const preferred = openingLineBank.filter(l => l.tone === tone);
-    selected = [
-      pickRandom(preferred),
-      pickRandom(preferred),
-      pickRandom(any),
-      pickRandom(any)
-    ];
-  }
-
-  // ✅ Ensure 4 options even if pool is small
-  while (selected.length < 4) {
-    selected.push(pickRandom(any));
-  }
-
-  return shuffle(selected);
-}
-
