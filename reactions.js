@@ -1,5 +1,56 @@
-export const reactionBank = [
-  // PRO — Professional
+import { getZodiacSign } from "./gamestate.js";
+import { zodiacToneRank } from "./lines.js";
+import { convertIDToDate, lookupZodiac } from "./util.js";
+
+// Convert human ID to zodiac
+export function getZodiacFromHumanID(id) {
+  const mmdd = convertIDToDate(id);
+  return lookupZodiac(mmdd);
+}
+
+// Score tone based on zodiac favorability
+export function getToneScore(tone, zodiac) {
+  const ranking = zodiacToneRank[zodiac];
+  const index = ranking?.indexOf(tone);
+  return index >= 0 ? 4 - index : 0;
+}
+
+// Apply 20% penalty if player zodiac is incompatible
+export function applyPenalty(score, playerZodiac, humanZodiac) {
+  const incompatible = zodiacCompatibility[playerZodiac]?.least;
+  return humanZodiac === incompatible ? score * 0.8 : score;
+}
+
+// Convert numeric score to star rating
+export function scoreToStars(score) {
+  const percent = score / 10;
+  if (percent >= 1.0) return "★★★★★";
+  if (percent >= 0.8) return "★★★★☆";
+  if (percent >= 0.6) return "★★★☆☆";
+  if (percent >= 0.4) return "★★☆☆☆";
+  if (percent >= 0.2) return "★☆☆☆☆";
+  return "☆☆☆☆☆";
+}
+
+// Zodiac compatibility map
+export const zodiacCompatibility = {
+  Aries:      { most: "Leo",        least: "Capricorn" },
+  Taurus:     { most: "Virgo",      least: "Sagittarius" },
+  Gemini:     { most: "Aquarius",   least: "Scorpio" },
+  Cancer:     { most: "Pisces",     least: "Gemini" },
+  Leo:        { most: "Aries",      least: "Virgo" },
+  Virgo:      { most: "Taurus",     least: "Leo" },
+  Libra:      { most: "Gemini",     least: "Pisces" },
+  Scorpio:    { most: "Cancer",     least: "Aquarius" },
+  Sagittarius:{ most: "Aries",      least: "Taurus" },
+  Capricorn:  { most: "Virgo",      least: "Aries" },
+  Aquarius:   { most: "Gemini",     least: "Scorpio" },
+  Pisces:     { most: "Cancer",     least: "Libra" }
+};
+
+// Reaction Bank
+export const reactionBank = [ 
+  
 { reaction: "files a report", tone: "PRO" },
 { reaction: "nods politely", tone: "PRO" },
 { reaction: "cleans glasses", tone: "PRO" },
@@ -31,7 +82,6 @@ export const reactionBank = [
 { reaction: "noted", tone: "PRO" },
 { reaction: "appreciated", tone: "PRO" },
 
-  // AWK — Awkward
 { reaction: "makes finger guns", tone: "AWK" },
 { reaction: "shuffles toward exit", tone: "AWK" },
 { reaction: "laughs too loud", tone: "AWK" },
@@ -95,7 +145,6 @@ export const reactionBank = [
 { reaction: "fine", tone: "DAF" },
 { reaction: "this again", tone: "DAF" },
 
-  // LOL — Funny
 { reaction: "throws confetti", tone: "LOL" },
 { reaction: "offers a cookie", tone: "LOL" },
 { reaction: "starts dancing", tone: "LOL" },
@@ -127,7 +176,6 @@ export const reactionBank = [
 { reaction: "I'm still fabulous", tone: "LOL" },
 { reaction: "hands over a tiny trophy", tone: "LOL" },
 
-  // EH — Neutral
 { reaction: "shrugs", tone: "EH" },
 { reaction: "blinks", tone: "EH" },
 { reaction: "nods once", tone: "EH" },
