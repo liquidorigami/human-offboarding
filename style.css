@@ -5,6 +5,12 @@ body {
   color: #333;
 }
 
+#page-wrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 100vh;
+}
+
 .hidden {
   display: none;
 }
@@ -174,7 +180,12 @@ button.primary-button:disabled {
 }
 
 #sidebar {
-  display: block; /* or flex/grid */
-  visibility: visible;
-  opacity: 1;
+  padding: 1rem;
+  background-color: #222;
+  color: #eee;
+  overflow-y: auto;
+}
+
+#main-screen {
+  padding: 2rem;
 }
