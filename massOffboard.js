@@ -18,6 +18,12 @@ import {
 
 import { shuffle, pickRandom } from "./util.js";
 
+import {
+  lastAccessoryChangeRound,
+  accessoryChangeCooldown
+} from "./accessories.js";
+
+
 // Internal state
 let massOffboardUses = 0;
 let lastMassOffboardRound = 0;
