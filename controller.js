@@ -16,7 +16,7 @@ import { getStarterOpeningLineSet, getRefreshedOpeningLineSet } from "./lines.js
 import { getStarterAccessorySet,
   canChangeAccessories,
   recordAccessoryChangeRound,
-  getAccessorySelectionPool, lastAccessoryChangeRound } from "./accessories.js";
+  getAccessorySelectionPool, lastAccessoryChangeRound, accessoryChangeCooldown } from "./accessories.js";
 import {
   formatAccessoryList,
   showAccessoryModal,
