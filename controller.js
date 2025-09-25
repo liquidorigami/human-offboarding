@@ -15,7 +15,8 @@ import {
 import { getStarterOpeningLineSet, getRefreshedOpeningLineSet } from "./lines.js";
 import {
   getStarterAccessorySet,
-  getAccessorySelectionPool
+  getAccessorySelectionPool,
+  getAccessoryModalPool
 } from "./accessories.js";
 import {
   formatAccessoryList,
