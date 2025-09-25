@@ -92,3 +92,14 @@ export function getCurrentSelections() {
     accessory: currentAccessory
   };
 }
+
+// accessory starter set
+let starterAccessorySet = [];
+
+export function setStarterAccessorySet(set) {
+  starterAccessorySet = set;
+}
+
+export function getStarterAccessorySetFromMemory() {
+  return starterAccessorySet;
+}
