@@ -42,3 +42,33 @@ export function showAccessoryModal(pool) {
 export function hideAccessoryModal() {
   document.getElementById("accessory-modal").style.display = "none";
 }
+
+//score board pagination
+let currentPage = 0;
+const scoresPerPage = 5;
+
+export function renderScoreboard(scores) {
+  const start = currentPage * scoresPerPage;
+  const end = start + scoresPerPage;
+  const visibleScores = scores.slice(start, end);
+  const tableBody = document.getElementById("scoreboard-body");
+
+  tableBody.innerHTML = ""; // Clear previous rows
+  visibleScores.forEach(score => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${score.name}</td><td>${score.points}</td>`;
+    tableBody.appendChild(row);
+  });
+
+  updatePaginationControls(scores.length);
+}
+
+export function nextPage(scores) {
+  currentPage++;
+  renderScoreboard(scores);
+}
+
+export function prevPage(scores) {
+  currentPage--;
+  renderScoreboard(scores);
+}
