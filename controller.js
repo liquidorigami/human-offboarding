@@ -25,7 +25,8 @@ import {
   getZodiacFromHumanID,
   getToneScore,
   applyPenalty,
-  scoreToStars
+  scoreToStars,
+  calculateFinalScore
 } from "./reactions.js";
 
 // Error display
@@ -176,24 +177,19 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
   const humanID = document.getElementById("human-number").textContent;
   const playerZodiac = getZodiacSign();
-  const humanZodiac = getZodiacFromHumanID(humanID);
 
-  const lineTone = getMostUsedTone(); // fallback if needed
-  const accessoryTone = getTopToneFromHistory(); // from gamestate
+  const selectedLine = {
+    line: currentLine,
+    tone: getMostUsedTone() // or pull tone from gamestate if more accurate
+  };
 
-  const lineScore = getToneScore(lineTone, humanZodiac);
-  const accessoryScore = getToneScore(accessoryTone, humanZodiac);
-
-  const penalizedLine = applyPenalty(lineScore, playerZodiac, humanZodiac);
-  const penalizedAccessory = applyPenalty(accessoryScore, playerZodiac, humanZodiac);
-
-  const totalScore = penalizedLine + penalizedAccessory;
-  const rating = scoreToStars(totalScore);
+  const scoreData = calculateFinalScore(selectedLine, playerZodiac, humanID);
 
   const reaction = "Neutral"; // placeholder — can be dynamic later
 
   recordSelections({ line: currentLine, accessory: currentAccessory });
-  addScoreRow(humanID, reaction, rating);
+  addScoreRow(humanID, reaction, scoreData.stars);
+  updateSidebar(caseCount, scoreData.score);
   setupCase();
 });
 
