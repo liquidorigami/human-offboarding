@@ -24,12 +24,12 @@ let lastMassOffboardRound = 0;
 
 // Reaction tracking
 const reactionLog = {};
-const reactionBank = {
-  PRO: ["Nods silently", "Accepts with grace", "Smiles faintly"],
-  EH: ["Shrugs", "Looks away", "Sighs"],
-  AWK: ["Fidgets", "Avoids eye contact", "Mumbles something"],
-  LOL: ["Laughs nervously", "Cracks a joke", "Snorts"],
-  DAF: ["Walks out", "Rolls eyes", "Deletes badge"]
+const reactionToneMap = {
+  PRO: ["nods silently", "accepts with grace", "smiles faintly"],
+  EH: ["shrugs", "looks away", "sighs"],
+  AWK: ["fidgets", "avoids eye contact", "mumbles something"],
+  LOL: ["laughs nervously", "cracks a joke", "snorts"],
+  DAF: ["walks out", "rolls eyes", "deletes badge"]
 };
 
 // Check if mass offboard is allowed
@@ -68,8 +68,9 @@ export function triggerMassOffboard(addScoreRow) {
     }
 
     const rating = scoreToStars(total);
-    const reactionPool = reactionBank[lineTone] || ["Blank stare"];
+    const reactionPool = reactionToneMap[lineTone] || ["Blank stare"];
     const reactionText = pickRandom(reactionPool);
+
 
     reactionLog[reactionText] = (reactionLog[reactionText] || 0) + 1;
 
