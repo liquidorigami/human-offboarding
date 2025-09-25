@@ -63,37 +63,6 @@
   <div id="error-mass" class="error hidden">Available after 8 cases</div>
   <div id="error-exhausted" class="error hidden">Mass Upload exhausted</div>
 </div>
-<!-- Side bar -->
-  <div id="sidebar">
-  <div class="sidebar-buttons">
-    <button id="progress-toggle">Progress</button>
-    <button id="clockout-toggle">Clockout</button>
-  </div>
-
-  <div id="progress-panel" class="sidebar-panel hidden">
-    <p>Humans offboarded: <span id="score-cases">0</span></p>
-    <p>Certification progress: <span id="score-earned">0</span>/<span id="score-total">10</span></p>
-  </div>
-
-  <div id="clockout-panel" class="sidebar-panel hidden">
-    <p>Are you sure you want to quit?</p>
-    <p>Clicking below will reset the game.</p>
-    <button id="cease-btn">Cease Offboarding</button>
-  </div>
-
-  <table id="score-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Reaction</th>
-        <th>Rating</th>
-      </tr>
-    </thead>
-    <tbody id="score-table-body">
-      <!-- rows will be added dynamically -->
-    </tbody>
-  </table>
-</div>
 
 <!-- Accessory Modal -->
 <div id="accessory-modal" class="modal-overlay" style="display: none;">
@@ -107,7 +76,6 @@
   </div>
 </div>
 
-  
 <script type="module" src="./controller.js"></script>
 </body>
 </html>
