@@ -2,6 +2,22 @@ import { getZodiacSign } from "./gamestate.js";
 import { zodiacToneRank } from "./lines.js";
 import { convertIDToDate, lookupZodiac } from "./util.js";
 
+// Final score calculation
+export function calculateFinalScore(selectedLine, playerZodiac, humanId) {
+  const humanZodiac = getZodiacFromHumanID(humanId);
+  const tone = selectedLine.tone;
+
+  const baseScore = getToneScore(tone, humanZodiac);
+  const finalScore = applyPenalty(baseScore, playerZodiac, humanZodiac);
+
+  return {
+    score: Math.round(finalScore),
+    tone,
+    humanZodiac,
+    stars: scoreToStars(finalScore)
+  };
+}
+
 // Convert human ID to zodiac
 export function getZodiacFromHumanID(id) {
   const mmdd = convertIDToDate(id);
