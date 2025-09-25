@@ -213,11 +213,14 @@ document.getElementById("cease-btn").addEventListener("click", () => {
   location.reload();
 });
 // mass offboard
-document.getElementById("massoffboard-btn").addEventListener("click", () => {
-  if (!canMassOffboard()) {
-    return showErrorMessage("error-offboard", "Available after 8 cases");
-  }
+const massBtn = document.getElementById("massoffboard-btn");
+if (massBtn) {
+  massBtn.addEventListener("click", () => {
+    if (!canMassOffboard()) {
+      return showErrorMessage("error-offboard", "Mass-offboarding is available after 8 cases");
+    }
 
-  triggerMassOffboard(addScoreRow);
-  setupCase(); 
-}); 
+    triggerMassOffboard(addScoreRow);
+    setupCase(); // advance to next case
+  });
+}
