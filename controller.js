@@ -33,15 +33,20 @@ import {
   getReactionLabel
 } from "./reactions.js";
 
+import { canMassOffboard, triggerMassOffboard } from "./massOffboard.js";
+
 // Error display
-function showError(id) {
+function showErrorMessage(id, message) {
   const el = document.getElementById(id);
   if (!el) return;
+  el.textContent = message;
   el.style.display = "block";
   setTimeout(() => {
     el.style.display = "none";
+    el.textContent = "";
   }, 1500);
 }
+
 
 // Screen toggles
 function showMainScreen() {
@@ -140,7 +145,7 @@ document.getElementById("ready-btn")?.addEventListener("click", () => {
 // Refresh button
 document.getElementById("refresh-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
-  if (caseCount < 5) return showError("error-refresh");
+  if (caseCount < 5) return showErrorMessage("error-refresh", "Refresh available after 5 cases");
 
   const lines = getRefreshedOpeningLineSet(caseCount);
   renderLines(lines);
@@ -149,7 +154,7 @@ document.getElementById("refresh-btn").addEventListener("click", () => {
 // Change button
 document.getElementById("change-btn").addEventListener("click", () => {
   const caseCount = getCaseCount();
-  if (caseCount < 5) return showError("error-change");
+  if (caseCount < 5) return showErrorMessage("error-change", "Change available after 5 cases");
 
   const pool = getAccessorySelectionPool();
   showAccessoryModal(pool);
@@ -175,7 +180,7 @@ document.getElementById("cancel-modal").addEventListener("click", () => {
 // OFFBOARD button
 document.getElementById("offboard-btn").addEventListener("click", () => {
   if (!currentLine || !currentAccessory) {
-    return showError("error-offboard");
+    return showErrorMessage("error-offboard", "Please select both an opening line, and an accessory");
   }
 
   const caseCount = getCaseCount();
@@ -184,12 +189,12 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
 
   const selectedLine = {
     line: currentLine,
-    tone: getMostUsedTone() // or pull tone from gamestate if more accurate
+    tone: getMostUsedTone()
   };
 
   const scoreData = calculateFinalScore(selectedLine, playerZodiac, humanID);
-
   const reaction = getReactionLabel(scoreData.tone);
+
   recordSelections({ line: currentLine, accessory: currentAccessory });
   addScoreRow(humanID, reaction, scoreData.stars);
   updateSidebar(caseCount, scoreData.score);
@@ -208,3 +213,11 @@ document.getElementById("clockout-toggle").addEventListener("click", () => {
 document.getElementById("cease-btn").addEventListener("click", () => {
   location.reload();
 });
+// mass offboard
+document.getElementById("massoffboard-btn").addEventListener("click", () => {
+  if (!canMassOffboard()) {
+    return showErrorMessage("error-offboard", "Available after 8 cases");
+  }
+
+  triggerMassOffboard(addScoreRow);
+  setupCase(); // advance to next case after mass
