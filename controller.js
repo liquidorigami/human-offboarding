@@ -26,7 +26,8 @@ import {
   getToneScore,
   applyPenalty,
   scoreToStars,
-  calculateFinalScore
+  calculateFinalScore,
+  getReactionLabel
 } from "./reactions.js";
 
 // Error display
@@ -185,8 +186,7 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
 
   const scoreData = calculateFinalScore(selectedLine, playerZodiac, humanID);
 
-  const reaction = "Neutral"; // placeholder — can be dynamic later
-
+  const reaction = getReactionLabel(scoreData.tone);
   recordSelections({ line: currentLine, accessory: currentAccessory });
   addScoreRow(humanID, reaction, scoreData.stars);
   updateSidebar(caseCount, scoreData.score);
