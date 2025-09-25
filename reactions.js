@@ -1,6 +1,7 @@
 import { getZodiacSign } from "./gamestate.js";
 import { zodiacToneRank } from "./lines.js";
 import { convertIDToDate, lookupZodiac, shuffle, pickRandom } from "./util.js";
+import { reactionBank} from ".reactions.js";
 
 // Final score calculation
 export function calculateFinalScore(selectedLine, playerZodiac, humanId) {
