@@ -57,8 +57,8 @@ export function getAccessoryModalPool() {
 }
 
 //Tracking Accessory Rounds
-let lastAccessoryChangeRound = 1;
-let accessoryChangeCooldown = 5;
+export let lastAccessoryChangeRound = 1;
+export let accessoryChangeCooldown = 5;
 
 export function canChangeAccessories() {
   const current = getCaseCount();
