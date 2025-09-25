@@ -13,7 +13,10 @@ import {
 } from "./gamestate.js";
 
 import { getStarterOpeningLineSet, getRefreshedOpeningLineSet } from "./lines.js";
-import { getStarterAccessorySet, getAccessorySelectionPool } from "./accessories.js";
+import { getStarterAccessorySet,
+  canChangeAccessories,
+  recordAccessoryChangeRound,
+  getAccessorySelectionPool } from "./accessories.js";
 import {
   formatAccessoryList,
   showAccessoryModal,
