@@ -220,4 +220,5 @@ document.getElementById("massoffboard-btn").addEventListener("click", () => {
   }
 
   triggerMassOffboard(addScoreRow);
-  setupCase(); // advance to next case after mass
+  setupCase(); 
+}); 
