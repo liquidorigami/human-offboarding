@@ -1,6 +1,7 @@
 import { getZodiacSign } from "./gamestate.js";
 import { zodiacToneRank } from "./lines.js";
-import { convertIDToDate, lookupZodiac } from "./util.js";
+import { convertIDToDate, lookupZodiac, shuffle, pickRandom } from "./util.js";
+import { reactionBank } from "./reactions.js";
 
 // Final score calculation
 export function calculateFinalScore(selectedLine, playerZodiac, humanId) {
@@ -46,6 +47,12 @@ export function scoreToStars(score) {
   if (percent >= 0.4) return "★★☆☆☆";
   if (percent >= 0.2) return "★☆☆☆☆";
   return "☆☆☆☆☆";
+}
+//reaction label
+
+export function getReactionLabel(tone) {
+  const matchingReactions = reactionBank.filter(r => r.tone === tone);
+  return pickRandom(matchingReactions)?.reaction || "No Reaction";
 }
 
 // Zodiac compatibility map
