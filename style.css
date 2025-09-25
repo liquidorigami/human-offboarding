@@ -189,7 +189,7 @@ button.primary-button:disabled {
   padding: 2rem;
 }
 
-#scoreboard {
+#score-table {
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #444;
