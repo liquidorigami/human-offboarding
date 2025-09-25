@@ -74,3 +74,21 @@ import { getTopTone } from "./util.js";
 export function getTopToneFromHistory() {
   return getTopTone(selectedAccessories);
 }
+
+//reset game
+export function resetGameState() {
+  zodiacSign = null;
+  caseCount = 1;
+  toneUsage = { PRO: 0, EH: 0, AWK: 0, LOL: 0, DAF: 0 };
+  selectedOpeningLines = [];
+  selectedAccessories = [];
+  clearCurrentSelections();
+}
+
+//debug maybe
+export function getCurrentSelections() {
+  return {
+    line: currentLine,
+    accessory: currentAccessory
+  };
+}
