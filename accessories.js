@@ -57,17 +57,17 @@ export function getAccessoryModalPool() {
 }
 
 //Tracking Accessory Rounds
-export let lastAccessoryChangeRound = 1;
-export let accessoryChangeCooldown = 5;
+//export let lastAccessoryChangeRound = 1;
+//export let accessoryChangeCooldown = 5;
 
-export function canChangeAccessories() {
-  const current = getCaseCount();
-  return current - lastAccessoryChangeRound >= accessoryChangeCooldown;
-}
+//export function canChangeAccessories() {
+  //const current = getCaseCount();
+  //return current - lastAccessoryChangeRound >= accessoryChangeCooldown;
+//}
 
-export function recordAccessoryChangeRound() {
-  lastAccessoryChangeRound = getCaseCount();
-}
+//export function recordAccessoryChangeRound() {
+  //lastAccessoryChangeRound = getCaseCount();
+//}
 
 // Accessory Bank
 export const accessoryBank = [
