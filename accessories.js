@@ -25,6 +25,19 @@ export function getAccessorySelectionPool() {
   return accessoryBank.map(a => a.item);
 }
 
+//Tracking Accessory Rounds
+let lastAccessoryChangeRound = 1;
+let accessoryChangeCooldown = 5;
+
+export function canChangeAccessories() {
+  const current = getCaseCount();
+  return current - lastAccessoryChangeRound >= accessoryChangeCooldown;
+}
+
+export function recordAccessoryChangeRound() {
+  lastAccessoryChangeRound = getCaseCount();
+}
+
 // Accessory Bank
 export const accessoryBank = [
 
