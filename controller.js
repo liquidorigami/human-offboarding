@@ -80,18 +80,22 @@ function setupCase() {
 function renderLines(lines) {
   const lineList = document.getElementById("opening-line-options");
   lineList.innerHTML = "";
+
   lines.forEach(line => {
     const li = document.createElement("li");
     li.textContent = line.line;
     li.classList.add("option");
+
     li.addEventListener("click", () => {
       document.querySelectorAll("#opening-line-options li").forEach(el =>
         el.classList.remove("selected")
       );
       li.classList.add("selected");
-      setCurrentLine(line.line);
-      recordTone(line.tone);
+
+      setCurrentLine(line);        // ✅ store full line object with tone
+      recordTone(line.tone);       // ✅ track tone usage
     });
+
     lineList.appendChild(li);
   });
 }
@@ -185,15 +189,12 @@ document.getElementById("offboard-btn").addEventListener("click", () => {
   const humanID = document.getElementById("human-number").textContent;
   const playerZodiac = getZodiacSign();
 
-  const selectedLine = {
-    line: currentLine,
-    tone: getMostUsedTone()
-  };
+  const selectedLine = currentLine; // already includes line and tone
 
   const scoreData = calculateFinalScore(selectedLine, playerZodiac, humanID);
   const reaction = getReactionLabel(scoreData.tone);
 
-  recordSelections({ line: currentLine, accessory: currentAccessory });
+  recordSelections({ line: currentLine.line, accessory: currentAccessory });
   addScoreRow(humanID, reaction, scoreData.stars);
   updateSidebar(caseCount, scoreData.score);
   setupCase();
