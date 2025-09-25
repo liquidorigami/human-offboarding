@@ -153,9 +153,6 @@ document.getElementById("refresh-btn").addEventListener("click", () => {
 
 // Change button
 document.getElementById("change-btn").addEventListener("click", () => {
-  const caseCount = getCaseCount();
-  if (caseCount < 5) return showErrorMessage("error-change", "Change available after 5 cases");
-
   const pool = getAccessorySelectionPool();
   showAccessoryModal(pool);
 });
