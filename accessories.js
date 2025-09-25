@@ -3,26 +3,57 @@ import { shuffle, pickRandom } from "./util.js";
 
 // Starter Accessory Logic
 export function getStarterAccessorySet(caseCount) {
+  const pro = accessoryBank.filter(a => a.tone === "PRO");
+  const eh = accessoryBank.filter(a => a.tone === "EH");
   const any = accessoryBank.filter(a =>
     ["AWK", "LOL", "DAF", "PRO", "EH"].includes(a.tone)
   );
 
   const selected = [
-    pickRandom(any),
-    pickRandom(any),
+    pickRandom(pro),
+    pickRandom(eh),
     pickRandom(any)
   ];
 
-  while (selected.length < 3) {
-    selected.push(pickRandom(any));
+  // Remove duplicates if any accessory was picked twice
+  const unique = Array.from(new Set(selected.map(a => a.item)));
+
+  // Fill to 3 if needed
+  while (unique.length < 3) {
+    const extra = pickRandom(any).item;
+    if (!unique.includes(extra)) unique.push(extra);
   }
 
-  return shuffle(selected.map(a => a.item));
+  // Sort alphabetically
+  return unique.sort((a, b) => a.localeCompare(b));
 }
 
 // Selection Pool for Modal
 export function getAccessorySelectionPool() {
   return accessoryBank.map(a => a.item);
+}
+
+export function getAccessoryModalPool() {
+  const mostUsed = getMostUsedTone();
+
+  const pro = accessoryBank.filter(a => a.tone === "PRO");
+  const eh = accessoryBank.filter(a => a.tone === "EH");
+  const dominant = accessoryBank.filter(a => a.tone === mostUsed);
+  const any = accessoryBank.filter(a =>
+    ["AWK", "LOL", "DAF", "PRO", "EH"].includes(a.tone)
+  );
+
+  const selected = [
+    pickRandom(pro),
+    pickRandom(eh),
+    pickRandom(dominant),
+    pickRandom(dominant),
+    pickRandom(any),
+    pickRandom(any),
+    pickRandom(any)
+  ];
+
+  return shuffle(selected.map(a => a.item));
 }
 
 //Tracking Accessory Rounds
