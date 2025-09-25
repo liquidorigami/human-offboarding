@@ -189,3 +189,11 @@ button.primary-button:disabled {
 #main-screen {
   padding: 2rem;
 }
+
+#scoreboard {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #444;
+  padding: 1rem;
+  background-color: #111;
+}
