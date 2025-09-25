@@ -43,15 +43,18 @@ export function hideAccessoryModal() {
   document.getElementById("accessory-modal").style.display = "none";
 }
 
-//score board pagination
+// Scoreboard pagination
+
 let currentPage = 0;
 const scoresPerPage = 5;
+
+const SCORE_TABLE_ID = "score-table-body";
 
 export function renderScoreboard(scores) {
   const start = currentPage * scoresPerPage;
   const end = start + scoresPerPage;
   const visibleScores = scores.slice(start, end);
-  const tableBody = document.getElementById("scoreboard-body");
+  const tableBody = document.getElementById(SCORE_TABLE_ID);
 
   tableBody.innerHTML = ""; // Clear previous rows
   visibleScores.forEach(score => {
@@ -60,15 +63,20 @@ export function renderScoreboard(scores) {
     tableBody.appendChild(row);
   });
 
-  updatePaginationControls(scores.length);
+  updatePaginationControls(scores.length); // Make sure this function exists
 }
 
 export function nextPage(scores) {
-  currentPage++;
-  renderScoreboard(scores);
+  const maxPage = Math.floor(scores.length / scoresPerPage);
+  if (currentPage < maxPage) {
+    currentPage++;
+    renderScoreboard(scores);
+  }
 }
 
 export function prevPage(scores) {
-  currentPage--;
-  renderScoreboard(scores);
+  if (currentPage > 0) {
+    currentPage--;
+    renderScoreboard(scores);
+  }
 }
