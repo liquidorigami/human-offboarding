@@ -17,7 +17,10 @@ export function showAccessoryModal(pool) {
   optionList.innerHTML = "";
   selectedAccessories = [];
 
-  pool.forEach(item => {
+  // Sort alphabetically before rendering
+  const sortedPool = [...pool].sort((a, b) => a.localeCompare(b));
+
+  sortedPool.forEach(item => {
     const li = document.createElement("li");
     li.textContent = item;
     li.classList.add("option");
