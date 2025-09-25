@@ -172,3 +172,9 @@ button.primary-button:disabled {
   text-align: center;
   max-width: 600px;
 }
+
+#sidebar {
+  display: block; /* or flex/grid */
+  visibility: visible;
+  opacity: 1;
+}
