@@ -22,6 +22,11 @@ import { shuffle, pickRandom } from "./util.js";
 let massOffboardUses = 0;
 let lastMassOffboardRound = 0;
 
+//accessory change button reset
+if (getCaseCount() - lastAccessoryChangeRound >= accessoryChangeCooldown) {
+  // optionally reset or notify
+}
+
 // Reaction tracking
 const reactionLog = {};
 const reactionToneMap = {
