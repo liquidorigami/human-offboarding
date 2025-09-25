@@ -1,3 +1,5 @@
+console.log("Cooldown:", accessoryChangeCooldown);
+
 import {
   getZodiacSign,
   getCaseCount,
