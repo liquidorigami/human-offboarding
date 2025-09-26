@@ -180,7 +180,7 @@ button.primary-button:disabled {
 
 #sidebar {
   padding: 1rem;
-  background-color: #222;
+  background-color: E0D8D7;
   color: #eee;
   overflow-y: auto;
 }
@@ -192,7 +192,11 @@ button.primary-button:disabled {
 #score-table {
   max-height: 300px;
   overflow-y: auto;
-  border: 1px solid #444;
+  border-collapse: collapse;
+  text-align: left
   padding: 1rem;
   background-color: #111;
+}
+th {
+  background-color: #C82909;
 }
